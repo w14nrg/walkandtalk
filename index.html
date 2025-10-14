@@ -1,413 +1,298 @@
+<!doctype html>
 <html lang="en">
   <head>
+    <meta charset="utf-8" />
     <title>MENd - Men's Mental Health Walk and Talk | www.mend.me.uk</title>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,shrink-to-fit=no" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,300..900;1,300..900&family=Roboto:wght@400;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="css/tailwind/tailwind.min.css"/>
+    <!-- Tailwind (your existing build) -->
+    <link rel="stylesheet" href="css/tailwind/tailwind.min.css" />
     <link rel="icon" type="image/png" sizes="32x32" href="mend-favicon.png"/>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js" defer="defer"></script>
+
+    <!-- AOS (Animate On Scroll) for float-in effects -->
+    <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet" />
+    <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+
     <style>
-      @keyframes floatIn {
-        0% { opacity: 0; transform: translateY(20px); }
-        100% { opacity: 1; transform: translateY(0); }
+      /* small set of additions - keeps your palette & layout */
+      :root{
+        --mend-teal:#022C22;
+        --mend-lime:#D4F4C4;
+        --muted-bg:#F5F5F5;
       }
-      .float-in {
-        animation: floatIn 1s ease-out forwards;
+
+      body { font-family: "Roboto", system-ui, -apple-system, "Segoe UI", Roboto, "Figtree", "Helvetica Neue", Arial; background-color: #fff; color: var(--mend-teal); }
+
+      /* subtle swirl backgrounds - use low opacity so it's not overpowering */
+      .swirl {
+        position: relative;
+        width: 100%;
+        height: 120px;
+        overflow: visible;
+        pointer-events: none;
       }
+      .park-photo {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        display:block;
+      }
+      /* keep the hero images subdued */
+      .hero-photo {
+        position:absolute;
+        top:0;
+        left:0;
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        opacity:0.18;
+        filter: saturate(0.9) contrast(0.95);
+        z-index:0;
+      }
+      .hero-inner{ position:relative; z-index:2; }
+
+      /* polish AOS duration defaults */
+      [data-aos] { opacity:0; transform: translateY(8px); transition-property: opacity, transform; }
+      .aos-init[data-aos].aos-animate { opacity:1; transform: translateY(0); }
+
+      /* small responsive tweaks */
+      .container{ max-width:1200px; margin:0 auto; padding-left:1rem; padding-right:1rem; }
+
+      /* small credit footnotes */
+      .sources { font-size:13px; color:#6b6b6b; margin-top:1.25rem; }
+      footer .small{ font-size:13px; color:#6b6b6b; }
     </style>
   </head>
-  <body class="antialiased bg-body text-body font-body">
+  <body class="antialiased bg-white text-body font-body">
     <div>
+
+      <!-- Top announcement bar -->
       <div>
-        <p class="mb-0 py-3 bg-pastel-lime text-center" style="background-color: #D4F4C4;">MENd: One-on-one walk and talks in West London parks for any man. Visit <a href="https://www.mend.me.uk">www.mend.me.uk</a></p>
+        <p class="mb-0 py-3 text-center" style="background-color: var(--mend-lime); color: var(--mend-teal);">
+          MENd — One-on-one walk & talks across West London parks. Visit <a href="https://www.mend.me.uk" style="text-decoration:underline; color:var(--mend-teal);">www.mend.me.uk</a>
+        </p>
       </div>
-      <div>
-        <section class="relative bg-pastel-teal" style="background-color: #E6F3F3;">
-          <img class="absolute top-0 left-0 w-full h-full object-cover" src="mend-bg-waves.png" alt="Background waves"/>
-          <div class="relative pt-18 pb-24 sm:pb-32 lg:pt-36 lg:pb-62">
-            <div class="container mx-auto px-4 relative">
-              <div class="max-w-lg xl:max-w-xl mx-auto text-center">
-                <h1 class="font-heading text-5xl xs:text-7xl xl:text-8xl tracking-tight text-teal-900 mb-8 float-in" style="color: #022C22;">MENd: Walk and Talk for Men's Mental Health</h1>
-                <p class="max-w-md xl:max-w-none text-lg text-teal-900 opacity-80 mb-8 float-in" style="color: #022C22; animation-delay: 0.2s;">A Community Interest Company (CIC) in West London (Hammersmith & Fulham, Kensington & Chelsea) offering free one-on-one walk and talk sessions in local parks. For any man—abuse, loss, addiction, or just need a rant and coffee. Led by men who’ve been there, because talking saved my life.</p>
-                <a class="inline-flex py-4 px-6 items-center justify-center text-lg font-medium text-teal-900 border border-pastel-lime hover:border-white bg-pastel-lime hover:bg-white rounded-full transition duration-200" href="#contact" style="background-color: #D4F4C4; color: #022C22;">Book Your Free Session</a>
-              </div>
-            </div>
+
+      <!-- HERO -->
+      <section class="relative bg-pastel-teal" style="background-color:#E6F3F3; overflow:hidden;">
+        <!-- subtle hero park photo (Hyde Park-ish) -->
+        <img src="https://source.unsplash.com/1600x900/?hyde-park,london,park,trees" alt="Hyde Park" class="hero-photo" />
+        <!-- decorative swirl SVG top -->
+        <svg class="absolute top-0 right-0" style="opacity:0.08; transform: translateY(-20px); z-index:1;" width="420" height="420" viewBox="0 0 420 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M210 0 C 350 0, 420 80, 420 210 C 420 350, 350 420, 210 420 C 80 420, 0 350, 0 210 C 0 80, 80 0, 210 0 Z" fill="#D4F4C4"/>
+        </svg>
+
+        <div class="hero-inner container" style="padding-top:4.5rem; padding-bottom:4.5rem;">
+          <div class="max-w-xl mx-auto text-center">
+            <h1 class="font-heading text-5xl sm:text-6xl md:text-7xl tracking-tight mb-6" style="color:var(--mend-teal);" data-aos="fade-up" data-aos-duration="800">MENd: Walk & Talk for Men's Mental Health</h1>
+            <p class="max-w-xl mx-auto text-lg leading-relaxed mb-6" style="color:var(--mend-teal); opacity:0.9;" data-aos="fade-up" data-aos-duration="800" data-aos-delay="150">
+              Free one-on-one walk and talk sessions for men across Hammersmith & Fulham, Kensington & Chelsea.
+              Peer-led, non-judgemental and grounded in nature — shoulder-to-shoulder conversations that help.
+            </p>
+            <a href="#contact" class="inline-flex py-4 px-6 text-lg font-medium rounded-full border" style="background-color:var(--mend-lime); color:var(--mend-teal); border-color:transparent;" data-aos="fade-up" data-aos-duration="800" data-aos-delay="300">Book Your Free Session</a>
           </div>
-        </section>
+        </div>
+      </section>
+
+      <!-- Swirl divider -->
+      <div class="swirl" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="width:100%; height:120px;">
+          <path d="M0,48 C240,120 480,0 720,48 C960,96 1200,24 1440,64 L1440,120 L0,120 Z" fill="#F5F5F5" opacity="0.9"></path>
+        </svg>
       </div>
-      <section class="py-12 lg:py-24 bg-pastel-teal text-teal-900" style="background-color: #D1E8E2; color: #022C22;">
-        <div class="container mx-auto px-4">
-          <h2 class="font-heading text-4xl sm:text-5xl text-center mb-12" style="font-family: Roboto, sans-serif;">About Me: Why I Started MENd</h2>
-          <div class="max-w-4xl mx-auto p-8 bg-white rounded-2xl shadow-md">
-            <p class="text-lg leading-relaxed" style="font-family: Roboto, sans-serif; font-size: 18px;">
-              I’m the founder of MENd, and this is just the beginning—it’s just me for now, but I’m looking for other men to join as peer leaders. My life hasn’t been easy: I survived childhood abuse, got kicked out of schools, nearly died in a bike crash, and cared for my father until he passed. I served time in prison, battled drug and alcohol addiction, struggled with toxic relationships, and even attempted suicide. Therapy helped, but what truly saved me was real, raw conversations—talking with someone who got it. That’s why I started MENd: to walk shoulder-to-shoulder with men in West London parks, no judgment, no stigma. Whether you’re dealing with trauma, grief, or just need to vent over a coffee, I’m here. Let’s walk, talk, and heal together.
+
+      <!-- ABOUT + WHY -->
+      <section class="py-12 lg:py-20" style="background-color:#F5F5F5;">
+        <div class="container">
+          <h2 class="text-3xl md:text-4xl text-center mb-8" style="color:var(--mend-teal);" data-aos="fade-up">About MENd — Why I started this</h2>
+
+          <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-md p-8" data-aos="fade-up" data-aos-delay="100">
+            <p class="text-lg leading-relaxed" style="color:var(--mend-teal);">
+              MENd is a Community Interest Company offering free, confidential, one-on-one walk and talk sessions in local parks. I started MENd because personal, peer conversations saved my life — and I know many other men need the same: an informal, caring space to say what they can’t say elsewhere.
+              Sessions are 45–60 minutes and intentionally simple: a walk, a safe listener, and a coffee if you want.
             </p>
           </div>
         </div>
       </section>
-      <section class="py-12 lg:py-24 bg-pastel-gray" style="background-color: #F5F5F5;">
-        <div class="container mx-auto px-4">
-          <h2 class="font-heading text-4xl sm:text-5xl text-center mb-12" style="color: #022C22;">The Crisis in Men's Mental Health</h2>
-          <div class="flex flex-wrap -mx-4">
-            <div class="w-full sm:w-1/2 md:w-1/4 px-4 mb-10 md:mb-0">
-              <div class="text-center">
-                <h5 class="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl mb-4" style="color: #022C22;">75%</h5>
-                <span class="text-base lg:text-lg text-gray-700">of UK suicides are men (ONS, 2024)</span>
-              </div>
+
+      <!-- Swirl divider -->
+      <div class="swirl" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="width:100%; height:120px;">
+          <path d="M0,64 C240,0 480,96 720,64 C960,32 1200,96 1440,64 L1440,120 L0,120 Z" fill="#D4F4C4" opacity="0.06"></path>
+        </svg>
+      </div>
+
+      <!-- IN-DEPTH MENS MENTAL HEALTH + STATS -->
+      <section class="py-12 lg:py-20" style="background-color:#E6F4E8;">
+        <div class="container">
+          <h2 class="text-3xl md:text-4xl text-center mb-10" style="color:var(--mend-teal);" data-aos="fade-up">Men's mental health: the facts & why walking helps</h2>
+
+          <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div data-aos="fade-right" data-aos-duration="700">
+              <ul class="space-y-6">
+                <li>
+                  <h4 class="text-2xl font-semibold" style="color:var(--mend-teal);">Suicide rates remain high</h4>
+                  <p class="mt-2 text-base leading-relaxed">
+                    In England & Wales the combined male suicide rate was around <strong>17.6 deaths per 100,000 (2024 registrations)</strong> — substantially higher than the female rate and highlighting why targeted, low-barrier services for men are vital. <small class="sources">[source]</small>
+                  </p>
+                </li>
+
+                <li>
+                  <h4 class="text-2xl font-semibold" style="color:var(--mend-teal);">Prevalence of common mental disorders</h4>
+                  <p class="mt-2 text-base leading-relaxed">
+                    Around <strong>one in eight men</strong> (roughly 12–15%) experience a common mental health condition in a given week, and rates have been rising over recent years, especially among young adults. Early, informal help can stop problems escalating. <small class="sources">[source]</small>
+                  </p>
+                </li>
+
+                <li>
+                  <h4 class="text-2xl font-semibold" style="color:var(--mend-teal);">Men are less likely to access talking therapies</h4>
+                  <p class="mt-2 text-base leading-relaxed">
+                    Only about <strong>36% of referrals to NHS talking therapies are for men</strong> — which suggests many men face barriers to accessing formal therapy. Peer-led walk-and-talks offer a lower-barrier, familiar entry-point to open up. <small class="sources">[source]</small>
+                  </p>
+                </li>
+              </ul>
             </div>
-            <div class="w-full sm:w-1/2 md:w-1/4 px-4 mb-10 md:mb-0">
-              <div class="text-center">
-                <h5 class="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl mb-4" style="color: #022C22;">17.4 per 100k</h5>
-                <span class="text-base lg:text-lg text-gray-700">male suicide rate in England & Wales (ONS, 2024)</span>
-              </div>
+
+            <div data-aos="fade-left" data-aos-duration="700">
+              <h4 class="text-2xl font-semibold mb-4" style="color:var(--mend-teal);">Why walking in parks helps — short, evidence-backed points</h4>
+
+              <ul class="space-y-4 text-base leading-relaxed">
+                <li>
+                  <strong>Nature + movement = measurable mental health gains.</strong> Outdoor activity in natural spaces improves mood and reduces anxiety and depressive symptoms more than equivalent urban indoor exercise. <small class="sources">[source]</small>
+                </li>
+                <li>
+                  <strong>Walking reduces depressive symptoms.</strong> Recent studies and meta-analyses show walking (regular moderate activity or meeting simple step goals) is associated with significant reductions in depression and anxiety symptoms. Even modest, regular walks are beneficial. <small class="sources">[source]</small>
+                </li>
+                <li>
+                  <strong>Peer, non-clinical contact lowers stigma.</strong> Many men are more comfortable opening up while walking side-by-side rather than face-to-face; that practical difference increases willingness to share and keeps people engaged with support. <small class="sources">[source]</small>
+                </li>
+              </ul>
             </div>
-            <div class="w-full sm:w-1/2 md:w-1/4 px-4 mb-10 sm:mb-0">
-              <div class="text-center">
-                <h5 class="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl mb-4" style="color: #022C22;">12.5%</h5>
-                <span class="text-base lg:text-lg text-gray-700">of UK men have a common mental disorder (NHS Digital)</span>
-              </div>
+          </div>
+
+          <p class="mt-8 text-sm text-gray-600">
+            MENd provides a practical, low-pressure option to start talking — which can be the difference between isolation and getting support early.
+          </p>
+        </div>
+      </section>
+
+      <!-- Swirl divider (gentle) -->
+      <div class="swirl" aria-hidden="true">
+        <svg viewBox="0 0 1440 120" preserveAspectRatio="none" style="width:100%; height:120px;">
+          <path d="M0,48 C240,96 480,0 720,48 C960,96 1200,0 1440,48 L1440,120 L0,120 Z" fill="#FFFFFF" opacity="0.95"></path>
+        </svg>
+      </div>
+
+      <!-- OUR SUPPORT (features) -->
+      <section class="py-12 lg:py-20" style="background-color:#ffffff;">
+        <div class="container">
+          <h2 class="text-3xl md:text-4xl text-center mb-8" style="color:var(--mend-teal);" data-aos="fade-up">Our support — what we offer</h2>
+
+          <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="p-6 rounded-2xl bg-gray-50 shadow-sm" data-aos="zoom-in" data-aos-delay="80">
+              <h3 class="text-xl font-semibold mb-2" style="color:var(--mend-teal);">One-on-one Park Walks</h3>
+              <p class="text-sm">45–60 minute walks in local parks, confidential and free. A relaxed conversation with a trained peer listener.</p>
             </div>
-            <div class="w-full sm:w-1/2 md:w-1/4 px-4">
-              <div class="text-center">
-                <h5 class="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl mb-4" style="color: #022C22;">3x</h5>
-                <span class="text-base lg:text-lg text-gray-700">more likely to be alcohol dependent (HSCIC)</span>
-              </div>
+            <div class="p-6 rounded-2xl bg-gray-50 shadow-sm" data-aos="zoom-in" data-aos-delay="160">
+              <h3 class="text-xl font-semibold mb-2" style="color:var(--mend-teal);">Practical signposting</h3>
+              <p class="text-sm">If you need more support we’ll help you access local services, talking therapies or community groups.</p>
             </div>
-            <div class="w-full sm:w-1/2 md:w-1/4 px-4 mt-10">
-              <div class="text-center">
-                <h5 class="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl mb-4" style="color: #022C22;">1 in 8</h5>
-                <span class="text-base lg:text-lg text-gray-700">men have a mental health problem (Mental Health Foundation, 2024)</span>
-              </div>
-            </div>
-            <div class="w-full sm:w-1/2 md:w-1/4 px-4 mt-10">
-              <div class="text-center">
-                <h5 class="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl mb-4" style="color: #022C22;">36%</h5>
-                <span class="text-base lg:text-lg text-gray-700">of men seek professional help (Mental Health Foundation, 2024)</span>
-              </div>
-            </div>
-            <div class="w-full sm:w-1/2 md:w-1/4 px-4 mt-10">
-              <div class="text-center">
-                <h5 class="text-2xl xs:text-3xl lg:text-4xl xl:text-5xl mb-4" style="color: #022C22;">#1</h5>
-                <span class="text-base lg:text-lg text-gray-700">cause of death for men under 50 is suicide (ONS, 2024)</span>
-              </div>
+            <div class="p-6 rounded-2xl bg-gray-50 shadow-sm" data-aos="zoom-in" data-aos-delay="240">
+              <h3 class="text-xl font-semibold mb-2" style="color:var(--mend-teal);">Volunteer & peer leadership</h3>
+              <p class="text-sm">We welcome men who’ve been there — training is provided to help you become a peer leader.</p>
             </div>
           </div>
         </div>
       </section>
-      <section class="p-4 bg-white">
-        <div class="pt-16 pb-24 px-5 xs:px-8 xl:px-12 bg-pastel-lime rounded-3xl" style="background-color: #D4F4C4;">
-          <div class="container mx-auto px-4">
-            <div class="flex mb-4 items-center">
-              <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="4" cy="4" r="4" fill="#022C22"></circle>
-              </svg><span class="inline-block ml-2 text-sm font-medium" style="color: #022C22;">Our Support</span>
+
+      <!-- PARK GALLERY -->
+      <section class="py-12 lg:py-20 bg-gray-50">
+        <div class="container">
+          <h2 class="text-3xl md:text-4xl text-center mb-8" style="color:var(--mend-teal);" data-aos="fade-up">Parks we walk in</h2>
+
+          <div class="flex flex-wrap justify-center gap-6">
+            <div class="max-w-xs w-full sm:max-w-sm" data-aos="fade-up" data-aos-delay="80">
+              <img class="park-photo rounded-lg shadow-md" src="https://source.unsplash.com/800x600/?bishops-park,fulham,london,park" alt="Bishops Park, Fulham">
+              <p class="text-center mt-2 text-sm">Bishops Park (Fulham)</p>
             </div>
-            <div class="border-t border-teal-900 border-opacity-25 pt-14">
-              <h1 class="font-heading text-4xl sm:text-6xl mb-24" style="color: #022C22;">One-on-One Walk and Talks: Healing Through Steps</h1>
-              <div class="flex flex-wrap -mx-4">
-                <div class="w-full sm:w-1/2 px-4 mb-16">
-                  <div>
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0 8C0 3.58172 3.58172 0 8 0H40C44.4183 0 48 3.58172 48 8V40C48 44.4183 44.4183 48 40 48H8C3.58172 48 0 44.4183 0 40V8Z" fill="white"></path>
-                      <circle cx="16" cy="16" r="4" fill="#022C22"></circle>
-                      <circle cx="24" cy="32" r="4" fill="#022C22"></circle>
-                      <circle cx="32" cy="16" r="4" fill="#022C22"></circle>
-                    </svg>
-                    <div class="mt-6">
-                      <h5 class="text-2xl font-medium mb-3" style="color: #022C22;">Private Park Walks</h5>
-                      <p class="mb-6" style="color: #022C22;">One-on-one sessions in West London parks (Hammersmith & Fulham, Kensington & Chelsea). Open to any man—whether facing trauma, grief, or just needing a rant. Shoulder-to-shoulder talking reduces stigma and boosts endorphins by 50% vs. indoor therapy.</p>
-                      <a class="inline-block text-lg font-medium hover:text-teal-700" href="#contact" style="color: #022C22;">Book Now</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full sm:w-1/2 px-4 mb-16">
-                  <div>
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0 8C0 3.58172 3.58172 0 8 0H40C44.4183 0 48 3.58172 48 8V40C48 44.4183 44.4183 48 40 48H8C3.58172 48 0 44.4183 0 40V8Z" fill="white"></path>
-                      <rect x="23" y="8" width="2" height="12" rx="1" fill="#022C22"></rect>
-                      <rect x="23" y="28" width="2" height="12" rx="1" fill="#022C22"></rect>
-                      <rect x="34.6066" y="11.9792" width="2" height="12" rx="1" transform="rotate(45 34.6066 11.9792)" fill="#022C22"></rect>
-                      <rect x="20.4645" y="26.1213" width="2" height="12" rx="1" transform="rotate(45 20.4645 26.1213)" fill="#022C22"></rect>
-                      <rect x="28" y="25" width="2" height="12" rx="1" transform="rotate(-90 28 25)" fill="#022C22"></rect>
-                      <rect x="8" y="25" width="2" height="12" rx="1" transform="rotate(-90 8 25)" fill="#022C22"></rect>
-                      <rect x="26.1213" y="27.5355" width="2" height="12" rx="1" transform="rotate(-45 26.1213 27.5355)" fill="#022C22"></rect>
-                      <rect x="11.9792" y="13.3934" width="2" height="12" rx="1" transform="rotate(-45 11.9792 13.3934)" fill="#022C22"></rect>
-                    </svg>
-                    <div class="mt-6">
-                      <h5 class="text-2xl font-medium mb-3" style="color: #022C22;">Peer-Led Support</h5>
-                      <p class="mb-6" style="color: #022C22;">Led by men who’ve faced abuse, addiction, loss, or suicide attempts—like me. 40% of men never talk about mental health; our walks break that silence, with nature calming stress.</p>
-                      <a class="inline-block text-lg font-medium hover:text-teal-700" href="#contact" style="color: #022C22;">Learn More</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full sm:w-1/2 px-4 mb-16 sm:mb-0">
-                  <div>
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0 8C0 3.58172 3.58172 0 8 0H40C44.4183 0 48 3.58172 48 8V40C48 44.4183 44.4183 48 40 48H8C3.58172 48 0 44.4183 0 40V8Z" fill="white"></path>
-                      <path d="M25 24C25 24.5523 24.5523 25 24 25C23.4477 25 23 24.5523 23 24C23 23.4477 23 23.4477 23 24C23.4477 23 24 23C24.5523 23 25 23.4477 25 24Z" fill="#022C22"></path>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M24 25C24.5523 25 25 24.5523 25 24C25 23.4477 24.5523 23 24 23C23.4477 23 23 23.4477 23 24C23 24.5523 23.4477 25 24 25Z" fill="#022C22"></path>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M40 23C40.5523 23 41 23.4477 41 24C41 33.3888 33.3888 41 24 41C23.4477 41 23 40.5523 23 40C23 39.4477 23.4477 39 24 39C32.2843 39 39 32.2843 39 24C39 23.4477 39.4477 23 40 23Z" fill="#022C22"></path>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M24 9C15.7157 9 9 15.7157 9 24C9 24.5523 8.55228 25 8 25C7.44772 25 7 24.5523 7 24C7 14.6112 14.6112 7 24 7C24.5523 7 25 7.44772 25 8C25 8.55228 24.5523 9 24 9Z" fill="#022C22"></path>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M36 23C36.5523 23 37 23.4477 37 24C37 31.1797 31.1797 37 24 37C23.4477 37 23 36.5523 23 36C23 35.4477 23.4477 35 24 35C30.0751 35 35 30.0751 35 24C35 23.4477 35.4477 23 36 23Z" fill="#022C22"></path>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M24 13C17.9249 13 13 17.9249 13 24C13 24.5523 12.5523 25 12 25C11.4477 25 11 24.5523 11 24C11 16.8203 16.8203 11 24 11C24.5523 11 25 11.4477 25 12C25 12.5523 25 12 24 13Z" fill="#022C22"></path>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M32 23C32.5523 23 33 23.4477 33 24C33 28.9706 28.9706 33 24 33C23.4477 33 23 32.5523 23 32C23 31.4477 23.4477 31 24 31C27.866 31 31 27.866 31 24C31 23.4477 31.4477 23 32 23Z" fill="#022C22"></path>
-                      <path fill-rule="evenodd" clip-rule="evenodd" d="M24 17C20.134 17 17 20.134 17 24C17 24.5523 16.5523 25 16 25C15.4477 25 15 24.5523 15 24C15 19.0294 19.0294 15 24 15C24.5523 15 25 15.4477 25 16C25 16.5523 24.5523 17 24 17Z" fill="#022C22"></path>
-                    </svg>
-                    <div class="mt-6">
-                      <h5 class="text-2xl font-medium mb-3" style="color: #022C22;">Nature's Calm</h5>
-                      <p class="mb-6" style="color: #022C22;">Parks provide grounding—walking cuts depression symptoms by 30% and helps process trauma or stress without eye-contact pressure.</p>
-                      <a class="inline-block text-lg font-medium hover:text-teal-700" href="#contact" style="color: #022C22;">Learn More</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="w-full sm:w-1/2 px-4">
-                  <div>
-                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M0 8C0 3.58172 3.58172 0 8 0H40C44.4183 0 48 3.58172 48 8V40C48 44.4183 44.4183 48 40 48H8C3.58172 48 0 44.4183 0 40V8Z" fill="white"></path>
-                      <path d="M23.8425 12.3779C23.9008 12.238 24.0992 12.238 24.1575 12.3779L30.1538 26.7692C31.9835 31.1605 28.7572 36 24 36Lnan nanL24 36C19.2428 36 16.0165 31.1605 17.8462 26.7692L23.8425 12.3779Z" fill="#022C22"></path>
-                    </svg>
-                    <div class="mt-6">
-                      <h5 class="text-2xl font-medium mb-3" style="color: #022C22;">Starting Small, Growing Strong</h5>
-                      <p class="mb-6" style="color: #022C22;">As a new CIC, we're one-on-one for now—free, confidential, peer-led. Men die 3x more by suicide due to silence; join us for a walk, a rant, or a coffee.</p>
-                      <a class="inline-block text-lg font-medium hover:text-teal-700" href="#contact" style="color: #022C22;">Volunteer with Us</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="max-w-xs w-full sm:max-w-sm" data-aos="fade-up" data-aos-delay="160">
+              <img class="park-photo rounded-lg shadow-md" src="https://source.unsplash.com/800x600/?ravenscourt-park,london,trees,park" alt="Ravenscourt Park">
+              <p class="text-center mt-2 text-sm">Ravenscourt Park</p>
+            </div>
+            <div class="max-w-xs w-full sm:max-w-sm" data-aos="fade-up" data-aos-delay="240">
+              <img class="park-photo rounded-lg shadow-md" src="https://source.unsplash.com/800x600/?holland-park,london,park,garden" alt="Holland Park">
+              <p class="text-center mt-2 text-sm">Holland Park</p>
+            </div>
+            <div class="max-w-xs w-full sm:max-w-sm" data-aos="fade-up" data-aos-delay="320">
+              <img class="park-photo rounded-lg shadow-md" src="https://source.unsplash.com/800x600/?hyde-park,london,serpentine,park" alt="Hyde Park">
+              <p class="text-center mt-2 text-sm">Hyde Park</p>
             </div>
           </div>
         </div>
       </section>
-      <section class="py-12 lg:py-24 overflow-hidden bg-pastel-gray" style="background-color: #F5F5F5;">
-        <div class="container mx-auto px-4">
-          <div class="max-w-6xl mx-auto mb-24 text-center">
-            <h1 class="font-heading text-4xl sm:text-6xl md:text-7xl tracking-sm mb-16" style="color: #022C22;">In West London, 1 in 8 men face mental health challenges—talking in the park changes that. Join MENd to break the silence.</h1>
-            <a class="inline-flex py-4 px-6 items-center justify-center text-lg font-medium text-white hover:text-teal-900 border border-teal-900 hover:border-pastel-lime bg-teal-900 hover:bg-pastel-lime rounded-full transition duration-200" href="#contact" style="background-color: #022C22; border-color: #022C22; hover:background-color: #D4F4C4;">Get in Touch</a>
-          </div>
-          <div class="flex justify-center flex-wrap">
-            <div class="flex-shrink-0 h-full max-w-xs sm:max-w-md md:max-w-xl mr-4 sm:mr-8">
-              <img class="block w-full rounded-lg shadow-md" src="mend-park1.png" alt="West London park 1"/>
+
+      <!-- CONTACT -->
+      <section id="contact" class="py-12 lg:py-20" style="background-color:#E6F4E8;">
+        <div class="container">
+          <div class="max-w-lg mx-auto bg-white p-8 rounded-2xl shadow-md" data-aos="fade-up">
+            <h3 class="text-2xl mb-4" style="color:var(--mend-teal);">Contact — Book a free walk</h3>
+            <div class="mb-4">
+              <label class="block mb-2 text-sm font-medium" for="name" style="color:var(--mend-teal);">Name</label>
+              <input id="name" type="text" placeholder="Your name" class="w-full p-3 rounded-full border border-gray-300" />
             </div>
-            <div class="flex-shrink-0 h-full max-w-xs sm:max-w-md md:max-w-xl mr-4 sm:mr-8">
-              <img class="block w-full rounded-lg shadow-md" src="mend-park2.png" alt="West London park 2"/>
+            <div class="mb-4">
+              <label class="block mb-2 text-sm font-medium" for="email" style="color:var(--mend-teal);">Email</label>
+              <input id="email" type="email" placeholder="you@example.com" class="w-full p-3 rounded-full border border-gray-300" />
             </div>
-            <div class="flex-shrink-0 h-full max-w-xs sm:max-w-md md:max-w-xl mr-4 sm:mr-8">
-              <img class="block w-full rounded-lg shadow-md" src="mend-park3.png" alt="West London park 3"/>
+            <div class="mb-4">
+              <label class="block mb-2 text-sm font-medium" for="message" style="color:var(--mend-teal);">Message</label>
+              <textarea id="message" rows="4" placeholder="Tell us a little about what you need..." class="w-full p-3 rounded-lg border border-gray-300"></textarea>
             </div>
-            <div class="flex-shrink-0 h-full max-w-xs sm:max-w-md md:max-w-xl mr-4 sm:mr-8">
-              <img class="block w-full rounded-lg shadow-md" src="mend-park4.png" alt="West London park 4"/>
-            </div>
-          </div>
-        </div>
-      </section>
-      <section class="py-12 lg:py-24 bg-pastel-green" style="background-color: #E6F4E8;" id="contact">
-        <div class="container mx-auto px-4">
-          <div class="text-center mb-20">
-            <h1 class="font-heading text-4xl sm:text-6xl mb-6" style="color: #022C22;">Contact Us</h1>
-            <p class="text-gray-700">Reach out to book a walk, volunteer, or support MENd. We're here for any man in West London.</p>
-          </div>
-          <div class="max-w-lg mx-auto">
-            <div class="mb-6">
-              <label class="block mb-2 text-lg font-medium" for="name" style="color: #022C22;">Name</label>
-              <input class="w-full p-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-pastel-lime" type="text" id="name" placeholder="Your name" style="background-color: #FFFFFF;"/>
-            </div>
-            <div class="mb-6">
-              <label class="block mb-2 text-lg font-medium" for="email" style="color: #022C22;">Email</label>
-              <input class="w-full p-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-pastel-lime" type="email" id="email" placeholder="Your email" style="background-color: #FFFFFF;"/>
-            </div>
-            <div class="mb-6">
-              <label class="block mb-2 text-lg font-medium" for="message" style="color: #022C22;">Message</label>
-              <textarea class="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-pastel-lime" id="message" rows="5" placeholder="Tell us why you'd like to walk, volunteer, or support..." style="background-color: #FFFFFF;"></textarea>
-            </div>
-            <button class="w-full py-4 px-6 text-lg font-medium text-teal-900 border border-pastel-lime hover:border-white bg-pastel-lime hover:bg-white rounded-full transition duration-200" onclick="sendEmail()" style="background-color: #D4F4C4; color: #022C22;">Send Message</button>
-            <a class="inline-flex w-full mt-4 py-4 px-6 items-center justify-center text-lg font-medium text-white border border-teal-900 hover:border-pastel-lime bg-teal-900 hover:bg-pastel-lime rounded-full transition duration-200" href="#" style="background-color: #022C22; border-color: #022C22; hover:background-color: #D4F4C4;">Donate to MENd</a>
-          </div>
-          <script>
-            function sendEmail() {
-              const name = document.getElementById('name').value;
-              const email = document.getElementById('email').value;
-              const message = document.getElementById('message').value;
-              const subject = encodeURIComponent('MENd Walk and Talk Inquiry');
-              const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nMessage: ${message}`);
-              window.location.href = `mailto:info@mend.me.uk?subject=${subject}&body=${body}`;
-            }
-          </script>
-        </div>
-      </section>
-      <section class="py-12 lg:py-24">
-        <div class="container mx-auto px-4">
-          <div class="text-center mb-20">
-            <h1 class="font-heading text-6xl mb-6" style="color: #022C22;">FAQ</h1>
-            <p class="text-gray-700">Common questions about MENd's one-on-one walk and talks in West London.</p>
-          </div>
-          <div class="max-w-4xl mx-auto">
-            <button class="flex w-full py-6 px-8 mb-4 items-start justify-between text-left shadow-md rounded-2xl" x-data="{ accordion: false }" x-on:click.prevent="accordion = !accordion">
-              <div>
-                <div class="pr-5">
-                  <h5 class="text-lg font-medium" style="color: #022C22;">What is MENd and how does it work?</h5>
-                </div>
-                <div class="overflow-hidden h-0 pr-5 duration-500" x-ref="container" :style="accordion ? 'height: ' + $refs.container.scrollHeight + 'px' : ''">
-                  <p class="text-gray-700 mt-4">MENd is a new Community Interest Company offering free one-on-one walk and talk sessions in West London parks for any man—abuse, addiction, loss, or just a rant. We walk shoulder-to-shoulder—no couches, no stigma. Sessions last 45-60 mins, led by peers who've been there.</p>
-                </div>
-              </div><span class="flex-shrink-0">
-                <div :class="{'hidden': accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 5.69995V18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div>
-                <div class="hidden" :class="{'hidden': !accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div></span>
-            </button>
-            <button class="flex w-full py-6 px-8 mb-4 items-start justify-between text-left shadow-md rounded-2xl" x-data="{ accordion: false }" x-on:click.prevent="accordion = !accordion">
-              <div>
-                <div class="pr-5">
-                  <h5 class="text-lg font-medium" style="color: #022C22;">Why one-on-one walks? What's the benefit?</h5>
-                </div>
-                <div class="overflow-hidden h-0 pr-5 duration-500" x-ref="container" :style="accordion ? 'height: ' + $refs.container.scrollHeight + 'px' : ''">
-                  <p class="text-gray-700 mt-4">Walking outdoors reduces anxiety by 30%, boosts mood via endorphins, and makes talking easier—perfect for men (only 36% seek therapy). It’s peer-led for any issue or just a coffee and vent.</p>
-                </div>
-              </div><span class="flex-shrink-0">
-                <div :class="{'hidden': accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 5.69995V18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div>
-                <div class="hidden" :class="{'hidden': !accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div></span>
-            </button>
-            <button class="flex w-full py-6 px-8 mb-4 items-start justify-between text-left shadow-md rounded-2xl" x-data="{ accordion: false }" x-on:click.prevent="accordion = !accordion">
-              <div>
-                <div class="pr-5">
-                  <h5 class="text-lg font-medium" style="color: #022C22;">Is it free and confidential?</h5>
-                </div>
-                <div class="overflow-hidden h-0 pr-5 duration-500" x-ref="container" :style="accordion ? 'height: ' + $refs.container.scrollHeight + 'px' : ''">
-                  <p class="text-gray-700 mt-4">Yes—100% free as a CIC. Fully confidential; we walk in parks but prioritize privacy. Any man from Hammersmith & Fulham or Kensington & Chelsea can join.</p>
-                </div>
-              </div><span class="flex-shrink-0">
-                <div :class="{'hidden': accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 5.69995V18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div>
-                <div class="hidden" :class="{'hidden': !accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div></span>
-            </button>
-            <button class="flex w-full py-6 px-8 mb-4 items-start justify-between text-left shadow-md rounded-2xl" x-data="{ accordion: false }" x-on:click.prevent="accordion = !accordion">
-              <div>
-                <div class="pr-5">
-                  <h5 class="text-lg font-medium" style="color: #022C22;">How do I get involved—as a walker or leader?</h5>
-                </div>
-                <div class="overflow-hidden h-0 pr-5 duration-500" x-ref="container" :style="accordion ? 'height: ' + $refs.container.scrollHeight + 'px' : ''">
-                  <p class="text-gray-700 mt-4">Book a session or volunteer as a peer leader (if you’ve faced challenges). Use the contact form below—we’re building a network of West London men.</p>
-                </div>
-              </div><span class="flex-shrink-0">
-                <div :class="{'hidden': accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 5.69995V18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div>
-                <div class="hidden" :class="{'hidden': !accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div></span>
-            </button>
-            <button class="flex w-full py-6 px-8 mb-24 items-start justify-between text-left shadow-md rounded-2xl" x-data="{ accordion: false }" x-on:click.prevent="accordion = !accordion">
-              <div>
-                <div class="pr-5">
-                  <h5 class="text-lg font-medium" style="color: #022C22;">Why now? The crisis in men's mental health</h5>
-                </div>
-                <div class="overflow-hidden h-0 pr-5 duration-500" x-ref="container" :style="accordion ? 'height: ' + $refs.container.scrollHeight + 'px' : ''">
-                  <p class="text-gray-700 mt-4">UK men face a silent crisis: 75% of suicides, 3x alcohol dependency, only 36% seek therapy. Suicide is the top killer of men under 50. Our walks tackle it all.</p>
-                </div>
-              </div><span class="flex-shrink-0">
-                <div :class="{'hidden': accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 5.69995V18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div>
-                <div class="hidden" :class="{'hidden': !accordion}">
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M5.69995 12H18.3" stroke="#022C22" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                  </svg>
-                </div></span>
-            </button>
+            <button onclick="sendEmail()" class="w-full py-3 rounded-full font-medium" style="background-color:var(--mend-lime); color:var(--mend-teal);">Send Message</button>
+            <p class="mt-3 text-xs text-gray-600">We do not store or share your details — messages open your booking email client with pre-filled content.</p>
           </div>
         </div>
       </section>
-      <section class="relative py-12 lg:py-24 bg-pastel-peach overflow-hidden" style="background-color: #FFF3E6;">
-        <img class="absolute bottom-0 left-0" src="mend-waves-footer.png" alt="Footer waves"/>
-        <div class="container px-4 mx-auto relative">
-          <div class="flex flex-wrap mb-16 -mx-4">
-            <div class="w-full lg:w-2/12 xl:w-2/12 px-4 mb-16 lg:mb-0">
-              <a class="inline-block mb-4" href="https://www.mend.me.uk">
-                <img src="mend-logo.svg" alt="MENd Logo"/>
-              </a>
+
+      <!-- FOOTER -->
+      <footer class="py-8" style="background-color:#FFF3E6;">
+        <div class="container">
+          <div class="flex flex-wrap items-center justify-between">
+            <div>
+              <a href="https://www.mend.me.uk"><img src="mend-logo.svg" alt="MENd logo" style="height:48px;"></a>
             </div>
-            <div class="w-full md:w-7/12 lg:w-6/12 px-4 mb-16 lg:mb-0">
-              <div class="flex flex-wrap -mx-4">
-                <div class="w-full xs:w-1/3 px-4">
-                  <h3 class="mb-6 font-bold" style="color: #022C22;">Support MENd</h3>
-                  <ul>
-                    <li class="mb-4"><a class="inline-block text-gray-600 hover:text-pastel-lime font-medium" href="#contact" style="hover: #D4F4C4;">Book a Walk</a></li>
-                    <li class="mb-4"><a class="inline-block text-gray-600 hover:text-pastel-lime font-medium" href="#contact" style="hover: #D4F4C4;">Volunteer</a></li>
-                    <li><a class="inline-block text-gray-600 hover:text-pastel-lime font-medium" href="#" style="hover: #D4F4C4;">Donate</a></li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-            <div class="w-full md:w-5/12 lg:w-4/12 px-4">
-              <div class="max-w-sm p-8 bg-teal-900 rounded-2xl mx-auto md:mr-0" style="background-color: #022C22;">
-                <h5 class="text-xl font-medium text-white mb-4">Stay Connected with MENd</h5>
-                <p class="text-sm text-white opacity-80 leading-normal mb-10">Get updates on West London sessions, mental health tips, and volunteer opportunities. www.mend.me.uk</p>
-                <div class="flex flex-col">
-                  <input class="h-12 w-full px-4 py-1 placeholder-gray-700 outline-none ring-offset-0 focus:ring-2 focus:ring-pastel-lime rounded-full" type="email" placeholder="Your e-mail..." style="background-color: #FFFFFF;"/>
-                  <a class="h-12 inline-flex mt-3 py-1 px-5 items-center justify-center font-medium text-teal-900 border border-pastel-lime hover:border-white bg-pastel-lime hover:bg-white rounded-full transition duration-200" href="#contact" style="background-color: #D4F4C4; color: #022C22;">Subscribe</a>
-                </div>
-              </div>
+
+            <div class="footer-links hidden sm:block">
+              <a href="#contact" style="margin-right:1rem; color:var(--mend-teal);">Book</a>
+              <a href="#contact" style="margin-right:1rem; color:var(--mend-teal);">Volunteer</a>
+              <a href="#" style="color:var(--mend-teal);">Donate</a>
             </div>
           </div>
-          <div class="flex flex-wrap -mb-3 justify-between">
-            <div class="flex items-center mb-3">
-              <a class="inline-block mr-4 text-black hover:text-pastel-lime" href="#!" style="hover: #D4F4C4;">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <g clip-path="url(#clip0_230_4832)">
-                    <path d="M11.5481 19.9999V10.8776H14.6088L15.068 7.32147H11.5481V5.05138C11.5481 4.02211 11.8327 3.32067 13.3104 3.32067L15.1919 3.3199V0.139138C14.8665 0.0968538 13.7496 -9.15527e-05 12.4496 -9.15527e-05C9.735 -9.15527e-05 7.87654 1.65687 7.87654 4.69918V7.32147H4.80652V10.8776H7.87654V19.9999H11.5481Z" fill="currentColor"></path>
-                  </g>
-                </svg>
-              </a>
-              <a class="inline-block mr-4 text-black hover:text-pastel-lime" href="#!" style="hover: #D4F4C4;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7.8 2H16.2C19.4 2 22 4.6 22 7.8V16.2C22 17.7383 21.3889 19.2135 20.3012 20.3012C19.2135 21.3889 17.7383 22 16.2 22H7.8C4.6 22 2 19.4 2 16.2V7.8C2 6.26174 2.61107 4.78649 3.69878 3.69878C4.78649 2.61107 6.26174 2 7.8 2ZM7.6 4C6.64522 4 5.72955 4.37928 5.05442 5.05442C4.37928 5.72955 4 6.64522 4 7.6V16.4C4 18.39 5.61 20 7.6 20H16.4C17.3548 20 18.2705 19.6207 18.9456 18.9456C19.6207 18.2705 20 17.3548 20 16.4V7.6C20 5.61 18.39 4 16.4 4H7.6ZM17.25 5.5C17.5815 5.5 17.8995 5.6317 18.1339 5.86612C18.3683 6.10054 18.5 6.41848 18.5 6.75C18.5 7.08152 18.3683 7.39946 18.1339 7.63388C17.8995 7.8683 17.5815 8 17.25 8C16.9185 8 16.6005 7.8683 16.3661 7.63388C16.1317 7.39946 16 7.08152 16 6.75C16 6.41848 16.1317 6.10054 16.3661 5.86612C16.6005 5.6317 16.9185 5.5 17.25 5.5ZM12 7C13.3261 7 14.5979 7.52678 15.5355 8.46447C16.4732 9.40215 17 10.6739 17 12C17 13.3261 16.4732 14.5979 15.5355 15.5355C14.5979 16.4732 13.3261 17 12 17C10.6739 17 9.40215 16.4732 8.46447 15.5355C7.52678 14.5979 7 13.3261 7 12C7 10.6739 7.52678 9.40215 8.46447 8.46447C9.40215 7.52678 10.6739 7 12 7ZM12 9C11.2044 9 10.4413 9.31607 9.87868 9.87868C9.31607 10.4413 9 11.2044 9 12C9 12.7956 9.31607 13.5587 9.87868 14.1213C10.4413 14.6839 11.2044 15 12 15C12.7956 15 13.5587 14.6839 14.1213 14.1213C14.6839 13.5587 15 12.7956 15 12C15 11.2044 14.6839 10.4413 14.1213 9.87868C13.5587 9.31607 12.7956 9 12 9Z" fill="currentColor"></path>
-                </svg>
-              </a>
-              <a class="inline-block text-black hover:text-pastel-lime" href="#!" style="hover: #D4F4C4;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M19 3C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19ZM18.5 18.5V13.2C18.5 12.3354 18.1565 11.5062 17.5452 10.8948C16.9338 10.2835 16.1046 9.94 15.24 9.94C14.39 9.94 13.4 10.46 12.92 11.24V10.13H10.13V18.5H12.92V13.57C12.92 12.8 13.54 12.17 14.31 12.17C14.6813 12.17 15.0374 12.3175 15.2999 12.5801C15.5625 12.8426 15.71 13.1987 15.71 13.57V18.5H18.5ZM6.88 8.56C7.32556 8.56 7.75288 8.383 8.06794 8.06794C8.383 7.75288 8.56 7.32556 8.56 6.88C8.56 5.95 7.81 5.19 6.88 5.19C6.43178 5.19 6.00193 5.36805 5.68499 5.68499C5.36805 6.00193 5.19 6.43178 5.19 6.88C5.19 7.81 5.95 8.56 6.88 8.56ZM8.27 18.5V10.13H5.5V18.5H8.27Z" fill="currentColor"></path>
-                </svg>
-              </a>
-            </div>
-            <div class="text-center" style="color: #022C22;">© 2025 MENd CIC. All rights reserved. Serving West London: Hammersmith & Fulham, Kensington & Chelsea.</div>
-            <p class="text-sm text-gray-500 mb-3">A Community Interest Company for men's mental health.</p>
+
+          <div class="mt-6 text-center small">© 2025 MENd CIC. Serving Hammersmith & Fulham, Kensington & Chelsea. A Community Interest Company for men's mental health.</div>
+
+          <div class="mt-4 text-center sources">
+            Sources: ONS; NHS Digital; Mental Health Foundation; peer-reviewed reviews on nature & walking benefits.
           </div>
         </div>
-      </section>
+      </footer>
     </div>
+
+    <!-- small scripts -->
+    <script>
+      // Init AOS for scroll animations
+      AOS.init({ duration: 700, once: true, easing: 'ease-out-quart' });
+
+      // simple mailto send (keeps behaviour you had)
+      function sendEmail() {
+        const name = document.getElementById('name').value || '[no name]';
+        const email = document.getElementById('email').value || '[no email]';
+        const message = document.getElementById('message').value || '[no message]';
+        const subject = encodeURIComponent('MENd Walk and Talk Inquiry');
+        const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\nMessage: ${message}`);
+        window.location.href = `mailto:info@mend.me.uk?subject=${subject}&body=${body}`;
+      }
+    </script>
   </body>
 </html>
